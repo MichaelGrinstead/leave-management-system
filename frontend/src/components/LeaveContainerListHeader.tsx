@@ -1,0 +1,13 @@
+export default function LeaveContainerListHeader() {
+  return (
+    <div className="flex flex-row bg-white text-center font-semibold shadow-leaveContainer border w-3/4 justify-between px-10 py-2">
+      <h3 className="min-w-8">Id</h3>
+      <h3 className="min-w-32">Employee Name</h3>
+      <h3 className="min-w-32">Leave Type</h3>
+      <h3 className="min-w-32">Start Date</h3>
+      <h3 className="min-w-32">Return Date</h3>
+      <h3 className="min-w-32">Status</h3>
+      <div className="min-w-12">Actions</div>
+    </div>
+  );
+}

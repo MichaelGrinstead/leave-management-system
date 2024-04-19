@@ -4,7 +4,7 @@ import LeaveContainerListHeader from "./LeaveContainerListHeader";
 
 export default function LeaveContainerList() {
   return (
-    <div className="flex flex-col w-full items-center justify-center gap-2 mt-12">
+    <div className="flex flex-col w-full items-center justify-center gap-2">
       <LeaveContainerListHeader />
       {users.map((user: User) => (
         <LeaveContainer

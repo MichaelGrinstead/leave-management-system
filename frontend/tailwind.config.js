@@ -11,7 +11,7 @@ export default {
         midBlue: "#0079c7",
       },
       boxShadow: {
-        leaveContainer: "0 0.125rem 0.125rem rgba(191, 204, 214, 0.5)",
+        custom: "0 0.125rem 0.125rem rgba(191, 204, 214, 0.5)",
       },
     },
   },

@@ -13,11 +13,17 @@ class UserController extends Controller
 {
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
+        try{
+
+            $validatedData = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|string|min:8',
+            ]);
+        }catch (Exception $e) {
+            Log::error("Validation error: " . $e->getMessage());
+            return response()->json(['error' => 'Validation error'], 400);
+        }
 
         try {
             // Assign first user with the role of admin
@@ -33,6 +39,8 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json(['error' => 'Failed to create user'], 500);
             }
+
+            log::info(response()->json($user, 201));
 
             return response()->json($user, 201);
         } catch (QueryException $e) {

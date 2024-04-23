@@ -1,15 +1,20 @@
-import HomePageActions from "./components/HomePageActions";
-import LeaveContainerList from "./components/LeaveContainerList";
-import { Navbar } from "./components/Navbar";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home/Home";
+import Login from "./components/Login";
+import CreateAccount from "./components/CreateAccount";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center">
-        <HomePageActions />
-        <LeaveContainerList />
-      </div>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/create-account" element={<CreateAccount />} />
+        </Routes>
+      </Router>
     </>
   );
 }

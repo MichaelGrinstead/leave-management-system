@@ -1,5 +1,5 @@
-import { Button } from "./ui/Button";
-import SearchBar from "./ui/SearchBar";
+import { Button } from "../ui/Button";
+import SearchBar from "../ui/SearchBar";
 
 export default function HomePageActions() {
   return (

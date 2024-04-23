@@ -1,5 +1,5 @@
 import LeaveContainer from "./LeaveContainer";
-import { users, User } from "../data/users";
+import { users, User } from "../../data/users";
 import LeaveContainerListHeader from "./LeaveContainerListHeader";
 
 export default function LeaveContainerList() {

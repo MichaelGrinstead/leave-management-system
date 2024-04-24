@@ -40,8 +40,6 @@ class UserController extends Controller
                 return response()->json(['error' => 'Failed to create user'], 500);
             }
 
-            log::info(response()->json($user, 201));
-
             return response()->json($user, 201);
         } catch (QueryException $e) {
             Log::error("Database error: " . $e->getMessage());

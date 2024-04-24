@@ -6,7 +6,7 @@ const apiUrl = import.meta.env.VITE_API_URL as string;
 const route = `${apiUrl}/users/`;
 
 export const useGetUser = (
-  id?: number
+  id: number | null
 ): {
   userData: User;
   isGetUserLoading: boolean;

@@ -7,7 +7,7 @@ export default function LeaveRequestListHeader() {
       <h3 className="min-w-32">Start Date</h3>
       <h3 className="min-w-32">Return Date</h3>
       <h3 className="min-w-32">Status</h3>
-      <div className="min-w-12">Actions</div>
+      <div className="min-w-24">Actions</div>
     </div>
   );
 }

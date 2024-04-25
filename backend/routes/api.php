@@ -29,6 +29,8 @@ Route::get('/leave-requests/{id}', [LeaveRequestController::class, 'show'])-> mi
 Route::get('/leave-requests/{user_id}', [LeaveRequestController::class, 'indexUser'])-> middleware('auth:sanctum');
 Route::get('/leave-requests', [LeaveRequestController::class, 'indexAll'])-> middleware('auth:sanctum');
 
+Route::put('/status/{id}', [LeaveRequestController::class, 'updateStatus'])-> middleware('auth:sanctum');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

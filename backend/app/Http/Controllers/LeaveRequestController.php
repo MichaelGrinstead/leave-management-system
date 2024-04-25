@@ -104,4 +104,37 @@ class LeaveRequestController extends Controller
             return response()->json(['error' => 'Server error'], 500);
         }
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $isAdmin = $request->user()->role === 'admin';
+
+        if (!$isAdmin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $rules = [
+            'status' => ['required', 'string', Rule::in(['pending', 'accepted', 'denied'])],
+        ];
+
+        try{
+            $validatedData = $request->validate($rules);
+        }catch (ValidationException $ve) {
+            Log::error("Validation error: " . $ve->getMessage());
+            return response()->json(['error' => 'Validation error'], 400);
+        }
+
+        try {
+            $leaveRequest = LeaveRequest::findOrFail($id);
+            $leaveRequest->status = $validatedData['status'];
+            $leaveRequest->save();
+
+            return response()->json($leaveRequest, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Leave request not found'], 404);
+        } catch (Exception $e) {
+            Log::error("General error: " . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
 }

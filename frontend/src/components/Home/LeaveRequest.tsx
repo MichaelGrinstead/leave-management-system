@@ -1,7 +1,5 @@
-import { Button } from "../Ui/Button";
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
 import { useGetUser } from "../../hooks/useGetUser";
+import { clx } from "../../utils/clx";
 import LeaveRequestActions from "./LeaveRequestActions";
 
 interface LeaveRequestProps {
@@ -11,6 +9,7 @@ interface LeaveRequestProps {
   startDate: string;
   returnDate: string;
   status: string;
+  refetchLeaveRequests: () => void;
 }
 
 export default function LeaveRequest({
@@ -20,9 +19,11 @@ export default function LeaveRequest({
   startDate,
   returnDate,
   status,
+  refetchLeaveRequests,
 }: LeaveRequestProps) {
-  const { isAdmin } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
+
+  const statusColor = status === "accepted" ? "text-green-500" : "text-red-500";
 
   return (
     <div className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md">
@@ -32,12 +33,14 @@ export default function LeaveRequest({
         <h3 className="min-w-32">{leaveType}</h3>
         <h3 className="min-w-32">{startDate}</h3>
         <h3 className="min-w-32">{returnDate}</h3>
-        <h3 className="min-w-32">{status}</h3>
-        {isAdmin && (
-          <div className="min-w-12">
-            <LeaveRequestActions />
-          </div>
-        )}
+        <h3 className={clx("min-w-32", statusColor)}>{status}</h3>
+
+        <div className="min-w-24">
+          <LeaveRequestActions
+            id={id}
+            refetchLeaveRequests={refetchLeaveRequests}
+          />
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ interface AuthContextProps {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   isAdmin: boolean;
+  setIsAdmin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -19,6 +20,7 @@ export const AuthContext = createContext<AuthContextProps>({
   isLoggedIn: false,
   setIsLoggedIn: () => false,
   isAdmin: false,
+  setIsAdmin: () => false,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -30,6 +32,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  console.log({
+    userId,
+    token,
+    isAdmin,
+    isLoggedIn,
+  });
 
   const { userData } = useGetUser(userId);
 
@@ -59,6 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       isLoggedIn,
       setIsLoggedIn,
       isAdmin,
+      setIsAdmin,
     }),
     [userId, token, isLoggedIn, isAdmin]
   );

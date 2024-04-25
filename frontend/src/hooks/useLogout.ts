@@ -6,7 +6,8 @@ const apiUrl = import.meta.env.VITE_API_URL as string;
 const route = `${apiUrl}/logout`;
 
 export const useLogout = () => {
-  const { setToken, setUserId, setIsLoggedIn } = useContext(AuthContext);
+  const { setToken, setUserId, setIsLoggedIn, setIsAdmin } =
+    useContext(AuthContext);
 
   async function logout() {
     console.log("logging out");
@@ -27,6 +28,7 @@ export const useLogout = () => {
       localStorage.removeItem("user_id");
       setUserId(null);
       setIsLoggedIn(false);
+      setIsAdmin(false);
     }
   }
 

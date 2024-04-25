@@ -8,11 +8,13 @@ export const useGetLeaveRequestsAll = (): {
   leaveRequests: LeaveRequestServer[];
   isGetLeaveRequestsLoading: boolean;
   errorGettingLeaveRequests: Error | null;
+  refetchLeaveRequests: () => void;
 } => {
   const {
     data: leaveRequests,
     isLoading: isGetLeaveRequestsLoading,
     error: errorGettingLeaveRequests,
+    refetch: refetchLeaveRequests,
   } = useQuery({
     queryKey: ["leaveRequests"],
     queryFn: async () => {
@@ -34,5 +36,6 @@ export const useGetLeaveRequestsAll = (): {
     leaveRequests: leaveRequests || [],
     isGetLeaveRequestsLoading,
     errorGettingLeaveRequests,
+    refetchLeaveRequests,
   };
 };

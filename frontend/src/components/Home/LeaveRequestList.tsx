@@ -4,7 +4,7 @@ import { useGetLeaveRequestsAll } from "../../hooks/useGetLeaveRequestsAll";
 import { LeaveRequestClient, LeaveRequestServer } from "../../types";
 
 export default function LeaveRequestList() {
-  const { leaveRequests } = useGetLeaveRequestsAll();
+  const { leaveRequests, refetchLeaveRequests } = useGetLeaveRequestsAll();
 
   const requests: LeaveRequestClient[] = leaveRequests.map(
     (request: LeaveRequestServer) => {
@@ -33,6 +33,7 @@ export default function LeaveRequestList() {
           startDate={leaveRequest.startDate}
           returnDate={leaveRequest.endDate}
           status={leaveRequest.status}
+          refetchLeaveRequests={refetchLeaveRequests}
         />
       ))}
     </div>

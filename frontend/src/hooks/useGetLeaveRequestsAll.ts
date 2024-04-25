@@ -1,23 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { User } from "../types";
+import { LeaveRequestServer } from "../types";
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
-const route = `${apiUrl}/users`;
+const route = `${apiUrl}/leave-requests`;
 
-export const useGetUsers = (): {
-  usersData: User[];
-  isGetUsersLoading: boolean;
-  errorGettingUsers: Error | null;
+export const useGetLeaveRequestsAll = (): {
+  leaveRequests: LeaveRequestServer[];
+  isGetLeaveRequestsLoading: boolean;
+  errorGettingLeaveRequests: Error | null;
 } => {
   const {
-    data: usersData,
-    isLoading: isGetUsersLoading,
-    error: errorGettingUsers,
+    data: leaveRequests,
+    isLoading: isGetLeaveRequestsLoading,
+    error: errorGettingLeaveRequests,
   } = useQuery({
-    queryKey: ["userData"],
+    queryKey: ["leaveRequests"],
     queryFn: async () => {
       const response = await fetch(route, {
-        method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
@@ -32,8 +31,8 @@ export const useGetUsers = (): {
   });
 
   return {
-    usersData: usersData || [],
-    isGetUsersLoading,
-    errorGettingUsers,
+    leaveRequests: leaveRequests || [],
+    isGetLeaveRequestsLoading,
+    errorGettingLeaveRequests,
   };
 };

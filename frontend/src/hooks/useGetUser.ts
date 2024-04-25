@@ -22,6 +22,7 @@ export const useGetUser = (
       const response = await fetch(`${route}${id}`, {
         method: "GET",
         headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
       });

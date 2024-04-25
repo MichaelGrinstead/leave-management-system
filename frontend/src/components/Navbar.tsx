@@ -9,9 +9,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { userId, isAdmin } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
-  // console.log(userId);
-  // console.log(isAdmin);
-  // console.log(userData);
 
   const {
     logoutUser,

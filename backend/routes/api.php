@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LeaveRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,11 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::post('/leave-requests', [LeaveRequestController::class, 'store'])-> middleware('auth:sanctum');
+Route::get('/leave-requests/{id}', [LeaveRequestController::class, 'show'])-> middleware('auth:sanctum');
+Route::get('/leave-requests/user/{user_id}', [LeaveRequestController::class, 'indexUser'])-> middleware('auth:sanctum');
+Route::get('/leave-requests', [LeaveRequestController::class, 'index'])-> middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

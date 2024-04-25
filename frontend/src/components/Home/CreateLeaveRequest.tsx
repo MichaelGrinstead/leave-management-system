@@ -5,16 +5,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { DatePicker } from "../Ui/DatePicker";
 import DropDown from "../Ui/Select";
-import { employees } from "../../data/users";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useGetUser } from "../../hooks/useGetUser";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useGetUsers } from "../../hooks/useGetUsers";
+import { Input } from "../Ui/Input";
+import { useAddLeaveRequest } from "../../hooks/useAddLeaveRequest";
 
 const leaveRequestSchema = z
   .object({
-    employee: z.string().min(1, { message: "Employee is required" }),
+    employee: z.object({}),
     startDate: z.number(),
     endDate: z.number(),
     type: z.string().min(1, { message: "Type is required" }),
@@ -31,9 +33,25 @@ export default function CreateLeaveRequest() {
   const navigate = useNavigate();
   const { isAdmin, userId } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
+  const { usersData } = useGetUsers();
+  const employees = usersData.map((user) => {
+    return { name: user.name, id: user.id.toString() };
+  });
+  const {
+    addLeaveRequest,
+    isAddLeaveRequestPending,
+    isAddLeaveRequestSuccess,
+    errorAddingLeaveRequest,
+  } = useAddLeaveRequest();
+
+  console.log(usersData);
 
   const defaultLeaveRequestData = {
-    employee: isAdmin ? employees[0] : userData.name,
+    employee: isAdmin
+      ? employees.length > 0
+        ? employees[0]
+        : ""
+      : { name: userData.name || "", id: userId || "" },
     startDate: new Date().getTime(),
     endDate: new Date().getTime(),
     type: "Personal",
@@ -50,15 +68,38 @@ export default function CreateLeaveRequest() {
     getValues,
     register,
     formState: { errors },
+    handleSubmit,
+    watch,
   } = methods;
 
-  const { employee, startDate, endDate, type } = getValues();
+  const { employee, type } = getValues();
+
+  const { startDate, endDate } = watch();
 
   function timeInDays(start: number, end: number) {
     const timeInSeconds = end - start;
     if (timeInSeconds < 0) return 0;
     return (timeInSeconds / 60 / 60 / 24 / 1000).toFixed(2);
   }
+
+  const handleCreateLeaveRequest = () => {
+    if (isAdmin) {
+      addLeaveRequest({
+        userId: typeof employee === "object" ? employee.id : "",
+        type: type,
+        startDate: new Date(startDate).toISOString(),
+        endDate: new Date(endDate).toISOString(),
+        reason: getValues().reason,
+      });
+    } else {
+      addLeaveRequest({
+        type: type,
+        startDate: new Date(startDate).toISOString(),
+        endDate: new Date(endDate).toISOString(),
+        reason: getValues().reason,
+      });
+    }
+  };
 
   console.log(getValues());
   console.log(errors);
@@ -72,35 +113,49 @@ export default function CreateLeaveRequest() {
         <ChevronLeft /> Back
       </Button>
       <FormProvider {...methods}>
-        <form className="flex flex-col items-center justify-start bg-white border gap-4 w-1/2 h-[600px] mt-24 shadow-custom p-4">
+        <form
+          className="flex flex-col items-center justify-start bg-white border gap-4 w-1/2 h-[600px] mt-24 shadow-custom p-4"
+          onSubmit={handleSubmit(handleCreateLeaveRequest)}
+        >
           <h1 className="text-3xl font-bold text-darkBlue mt-6">
             Create Leave Request
           </h1>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row items-center gap-4">
             {isAdmin ? (
               <DropDown
                 label="Employee"
-                placeholder={employee}
+                placeholder={
+                  typeof employee === "object" ? employee.name : "Employee"
+                }
                 options={employees}
-                onValueChange={(value: string) => setValue("employee", value)}
+                onValueChange={(value) => {
+                  if (typeof value === "object") {
+                    setValue("employee", value);
+                  }
+                }}
               />
             ) : (
-              <h3 className="font-semibold">Employee: {userData.name}</h3>
+              <Input className="w-72" label="Employee" value={userData.name} />
             )}
             <DropDown
               label="Leave Type"
               placeholder={type}
               options={leaveTypes}
-              onValueChange={(value: string) => setValue("type", value)}
+              onValueChange={(value) => {
+                if (typeof value === "string") {
+                  setValue("type", value);
+                }
+              }}
             />
           </div>
           <div className="flex flex-row gap-4">
             <DatePicker
               label="Start date"
               date={new Date(startDate)}
-              setDate={(startDate: Date | undefined) =>
-                startDate && setValue("startDate", startDate.getTime())
-              }
+              setDate={(startDate: Date | undefined) => {
+                console.log("setting date"),
+                  startDate && setValue("startDate", startDate.getTime());
+              }}
             />
             <DatePicker
               label="End date"

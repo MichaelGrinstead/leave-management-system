@@ -140,8 +140,8 @@ SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 interface DropDownProps {
   label: string;
   placeholder: string;
-  options: string[];
-  onValueChange: (value: string) => void;
+  options: string[] | { name: string; id: string }[];
+  onValueChange: (value: string | { name: string; id: string }) => void;
 }
 
 export default function DropDown({
@@ -150,8 +150,18 @@ export default function DropDown({
   options,
   onValueChange,
 }: DropDownProps) {
+  const handleSelect = (value: string) => {
+    const selectedOption = options.find(
+      (option) => typeof option !== "string" && option.name === value
+    );
+    if (selectedOption) {
+      onValueChange(selectedOption);
+    } else {
+      onValueChange(value);
+    }
+  };
   return (
-    <Select onValueChange={(value: string) => onValueChange(value)}>
+    <Select onValueChange={handleSelect}>
       <div>
         <h6>{label}</h6>
         <SelectTrigger>
@@ -160,11 +170,21 @@ export default function DropDown({
       </div>
 
       <SelectContent>
-        {options.map((option) => (
-          <SelectItem key={option} value={option}>
-            {option}
-          </SelectItem>
-        ))}
+        {options.map((option, index) => {
+          if (typeof option === "string") {
+            return (
+              <SelectItem key={option} value={option}>
+                {option}
+              </SelectItem>
+            );
+          } else {
+            return (
+              <SelectItem key={index} value={option.name}>
+                {option.name}
+              </SelectItem>
+            );
+          }
+        })}
       </SelectContent>
     </Select>
   );

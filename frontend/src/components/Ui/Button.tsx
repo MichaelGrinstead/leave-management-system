@@ -10,6 +10,8 @@ const buttonVariants = cva(
         default: "bg-midBlue text-white",
         defaultMedium: "bg-midBlue text-lg text-white ",
         defaultLarge: "bg-midBlue text-lg text-white ",
+        outline:
+          "hover:border border-input bg-background hover:bg-gray-100 hover:text-accent-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

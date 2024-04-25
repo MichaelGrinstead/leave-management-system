@@ -1,13 +1,13 @@
-import LeaveContainer from "./LeaveContainer";
+import LeaveRequest from "./LeaveRequest";
 import { users, User } from "../../data/users";
-import LeaveContainerListHeader from "./LeaveContainerListHeader";
+import LeaveRequestListHeader from "./LeaveRequestListHeader";
 
-export default function LeaveContainerList() {
+export default function LeaveRequestList() {
   return (
     <div className="flex flex-col w-full items-center justify-center gap-2">
-      <LeaveContainerListHeader />
+      <LeaveRequestListHeader />
       {users.map((user: User) => (
-        <LeaveContainer
+        <LeaveRequest
           key={user.id}
           id={user.id}
           name={user.name}

@@ -137,3 +137,16 @@ export const users: User[] = [
     status: "Approved",
   },
 ];
+
+export const employees = [
+  "John Doe",
+  "Jane Smith",
+  "Alice Johnson",
+  "Bob Brown",
+  "Carol White",
+  "David Wilson",
+  "Eve Black",
+  "Frank Clark",
+  "Grace Lewis",
+  "Henry Walker",
+];

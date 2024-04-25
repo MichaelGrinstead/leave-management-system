@@ -3,13 +3,15 @@ import { AuthContext } from "../context/AuthContext";
 import { useGetUser } from "../hooks/useGetUser";
 import { useLogout } from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
+import { Shield } from "lucide-react";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { userId } = useContext(AuthContext);
+  const { userId, isAdmin } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
-  console.log(userId);
-  console.log(userData);
+  // console.log(userId);
+  // console.log(isAdmin);
+  // console.log(userData);
 
   const {
     logoutUser,
@@ -18,11 +20,14 @@ export default function Navbar() {
     errorLoggingOutUser,
   } = useLogout();
 
-  console.log({
-    isLogoutUserPending,
-    isLogoutUserSuccess,
-    errorLoggingOutUser,
-  });
+  const name = isAdmin ? (
+    <div className="flex flex-row items-center justify-center gap-1">
+      <h3 className="text-white">Hello, {userData.name}</h3>
+      <Shield className="text-midBlue" size={20} />
+    </div>
+  ) : (
+    <h3 className="text-white">Hello, {userData.name}</h3>
+  );
 
   const handleLogout = () => {
     console.log("logging out");
@@ -40,7 +45,7 @@ export default function Navbar() {
         <h3 className="text-white text-2xl">Leave Management System</h3>
         {userData.name !== "" && (
           <div className="flex flex-row items-center justify-center gap-4">
-            <h3 className="text-white">Hello, {userData?.name}</h3>
+            {name}
             <button className="text-white" onClick={() => handleLogout()}>
               log out
             </button>

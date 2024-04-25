@@ -1,12 +1,14 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
+import { useGetUser } from "../hooks/useGetUser";
 
 interface AuthContextProps {
-  userId: number | null;
-  setUserId: React.Dispatch<React.SetStateAction<null>>;
+  userId: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
   token: string | null;
-  setToken: React.Dispatch<React.SetStateAction<null>>;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  isAdmin: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -16,18 +18,50 @@ export const AuthContext = createContext<AuthContextProps>({
   setToken: () => null,
   isLoggedIn: false,
   setIsLoggedIn: () => false,
+  isAdmin: false,
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState(null);
-  const [token, setToken] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  return (
-    <AuthContext.Provider
-      value={{ userId, setUserId, token, setToken, isLoggedIn, setIsLoggedIn }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const [userId, setUserId] = useState<string | null>(
+    localStorage.getItem("user_id")
   );
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+
+  const { userData } = useGetUser(userId);
+
+  useEffect(() => {
+    if (userData.role === "admin") {
+      setIsAdmin(true);
+    }
+  }, [userData]);
+
+  const localToken = localStorage.getItem("token");
+  const localUserId = localStorage.getItem("user_id");
+
+  useEffect(() => {
+    if (localToken && localUserId) {
+      setToken(localToken);
+      setUserId(localUserId);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      userId,
+      setUserId,
+      token,
+      setToken,
+      isLoggedIn,
+      setIsLoggedIn,
+      isAdmin,
+    }),
+    [userId, token, isLoggedIn, isAdmin]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

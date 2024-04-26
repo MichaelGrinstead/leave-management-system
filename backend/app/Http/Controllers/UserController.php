@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\LeaveRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -70,6 +71,17 @@ class UserController extends Controller
             return response()->json($users, 200);
         } catch (Exception $e) {
             // Handle errors
+            Log::error("General error: " . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function leaveRequests($user_id)
+    {
+        try{
+            $leaveRequests = LeaveRequest::where('user_id', $user_id)->get();
+            return response()->json($leaveRequests, 200);
+        } catch (Exception $e) {
             Log::error("General error: " . $e->getMessage());
             return response()->json(['error' => 'Server error'], 500);
         }

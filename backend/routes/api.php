@@ -20,6 +20,7 @@ use App\Http\Controllers\LeaveRequestController;
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/users', [UserController::class, 'index'])->middleware('auth:sanctum');
+Route::get('/user/leave-requests/{user_id}', [UserController::class, 'leaveRequests'])-> middleware('auth:sanctum');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
@@ -28,6 +29,9 @@ Route::post('/leave-requests', [LeaveRequestController::class, 'store'])-> middl
 Route::get('/leave-requests/{id}', [LeaveRequestController::class, 'show'])-> middleware('auth:sanctum');
 Route::put('/leave-requests/{id}', [LeaveRequestController::class, 'update'])-> middleware('auth:sanctum');
 Route::get('/leave-requests', [LeaveRequestController::class, 'indexAll'])-> middleware('auth:sanctum');
+
+Route::get('/leave-requests/search', [LeaveRequestController::class, 'search'])-> middleware('auth:sanctum');
+
 
 Route::put('/status/{id}', [LeaveRequestController::class, 'updateStatus'])-> middleware('auth:sanctum');
 

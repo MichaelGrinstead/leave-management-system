@@ -132,16 +132,7 @@ class LeaveRequestController extends Controller
         }
     }
 
-    public function indexUser($user_id)
-    {
-        try{
-            $leaveRequests = LeaveRequest::where('user_id', $user_id)->get();
-            return response()->json($leaveRequests, 200);
-        } catch (Exception $e) {
-            Log::error("General error: " . $e->getMessage());
-            return response()->json(['error' => 'Server error'], 500);
-        }
-    }
+    
 
     public function indexAll(Request $request)
     {
@@ -186,4 +177,45 @@ class LeaveRequestController extends Controller
             return response()->json(['error' => 'Server error'], 500);
         }
     }
+
+    public function search(Request $request)
+    {
+        $isAdmin = $request->user()->role === 'admin';
+        
+        $request->validate([
+            'query' => 'required|string',
+        ]);
+    
+        $query = $request->get('query');
+    
+        $leaveRequestsQuery = LeaveRequest::query();
+    
+        if (!$isAdmin) {
+            $leaveRequestsQuery->where('user_id', $request->user()->id);
+        }
+    
+        $leaveRequestsQuery->where(function ($q) use ($query) {
+            $q->where('type', 'LIKE', "%{$query}%")
+              ->orWhere('reason', 'LIKE', "%{$query}%")
+              ->orWhere('status', 'LIKE', "%{$query}%");
+              
+            // Only add user subquery if admin
+            if ($isAdmin) {
+                $q->orWhereHas('user', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%")
+                      ->orWhere('email', 'LIKE', "%{$query}%")
+                      ->orWhere('reason', 'LIKE', "%{$query}%")
+                      ->orWhere('status', 'LIKE', "%{$query}%");
+                });
+            }
+        });
+    
+        $leaveRequests = $leaveRequestsQuery->get();
+    
+        return response()->json($leaveRequests);
+    }
+    
+
+
+
 }

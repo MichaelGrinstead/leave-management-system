@@ -4,12 +4,21 @@ import { useGetLeaveRequestsAll } from "../../hooks/useGetLeaveRequestsAll";
 import { LeaveRequestClient, LeaveRequestServer } from "../../types";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useGetLeaveRequestsUser } from "../../hooks/useGetLeaveRequestsUser";
 
 export default function LeaveRequestList() {
   const { isAdmin, userId } = useContext(AuthContext);
-  const { leaveRequests, refetchLeaveRequests } = useGetLeaveRequestsAll();
+  const { leaveRequestsAll, refetchLeaveRequestsAll } =
+    useGetLeaveRequestsAll();
+  const { leaveRequestsUser, refetchLeaveRequestsUser } =
+    useGetLeaveRequestsUser(userId);
 
-  const leaveRequestsUnfiltered: LeaveRequestClient[] = leaveRequests.map(
+  const leaveRequests = isAdmin ? leaveRequestsAll : leaveRequestsUser;
+  const refetchLeaveRequests = isAdmin
+    ? refetchLeaveRequestsAll
+    : refetchLeaveRequestsUser;
+
+  const requests: LeaveRequestClient[] = leaveRequests.map(
     (request: LeaveRequestServer) => {
       return {
         id: request.id,
@@ -22,12 +31,6 @@ export default function LeaveRequestList() {
       };
     }
   );
-
-  const leaveRequestsFiltered = leaveRequestsUnfiltered.filter((request) => {
-    return request.userId === userId?.toString();
-  });
-
-  const requests = isAdmin ? leaveRequestsUnfiltered : leaveRequestsFiltered;
 
   return (
     <div className="flex flex-col w-full items-center justify-center gap-2">

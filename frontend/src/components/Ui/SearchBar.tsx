@@ -2,7 +2,7 @@ import { Input } from "./Input";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({ ...props }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const searchRef = useRef<HTMLDivElement>(null);
@@ -32,6 +32,7 @@ export default function SearchBar() {
           placeholder="Search Requests"
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
+          {...props}
         />
       </div>
     </div>

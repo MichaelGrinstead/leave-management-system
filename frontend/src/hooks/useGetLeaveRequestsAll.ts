@@ -5,18 +5,18 @@ const apiUrl = import.meta.env.VITE_API_URL as string;
 const route = `${apiUrl}/leave-requests`;
 
 export const useGetLeaveRequestsAll = (): {
-  leaveRequests: LeaveRequestServer[];
-  isGetLeaveRequestsLoading: boolean;
-  errorGettingLeaveRequests: Error | null;
-  refetchLeaveRequests: () => void;
+  leaveRequestsAll: LeaveRequestServer[];
+  isGetLeaveRequestsAllLoading: boolean;
+  errorGettingLeaveRequestsAll: Error | null;
+  refetchLeaveRequestsAll: () => void;
 } => {
   const {
-    data: leaveRequests,
-    isLoading: isGetLeaveRequestsLoading,
-    error: errorGettingLeaveRequests,
-    refetch: refetchLeaveRequests,
+    data: leaveRequestsAll,
+    isLoading: isGetLeaveRequestsAllLoading,
+    error: errorGettingLeaveRequestsAll,
+    refetch: refetchLeaveRequestsAll,
   } = useQuery({
-    queryKey: ["leaveRequests"],
+    queryKey: ["leaveRequestsAll"],
     queryFn: async () => {
       const response = await fetch(route, {
         headers: {
@@ -33,9 +33,9 @@ export const useGetLeaveRequestsAll = (): {
   });
 
   return {
-    leaveRequests: leaveRequests || [],
-    isGetLeaveRequestsLoading,
-    errorGettingLeaveRequests,
-    refetchLeaveRequests,
+    leaveRequestsAll: leaveRequestsAll || [],
+    isGetLeaveRequestsAllLoading,
+    errorGettingLeaveRequestsAll,
+    refetchLeaveRequestsAll,
   };
 };

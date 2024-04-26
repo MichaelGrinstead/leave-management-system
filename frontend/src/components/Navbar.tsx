@@ -4,10 +4,11 @@ import { useGetUser } from "../hooks/useGetUser";
 import { useLogout } from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { Shield } from "lucide-react";
+import { clx } from "../utils/clx";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { userId, isAdmin } = useContext(AuthContext);
+  const { userId, isAdmin, isLoggedIn } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
 
   const {
@@ -31,6 +32,8 @@ export default function Navbar() {
     logoutUser();
   };
 
+  const headerPlacement = isLoggedIn ? "justify-between" : "justify-center";
+
   useEffect(() => {
     if (isLogoutUserSuccess) {
       navigate("/login");
@@ -38,7 +41,12 @@ export default function Navbar() {
   }, [isLogoutUserSuccess]);
   return (
     <nav className="sticky top-0 z-60 bg-darkBlueGrey transition-colors duration-500 ease-in-out">
-      <div className="relative  flex  items-center justify-between px-4 py-4 h-12">
+      <div
+        className={clx(
+          "relative  flex  items-center px-4 py-4 h-12",
+          headerPlacement
+        )}
+      >
         <h3 className="text-white text-2xl">Leave Management System</h3>
         {userData.name !== "" && (
           <div className="flex flex-row items-center justify-center gap-4">

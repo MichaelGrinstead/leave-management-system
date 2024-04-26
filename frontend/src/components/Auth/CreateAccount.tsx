@@ -6,6 +6,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useEffect } from "react";
+import PasswordInput from "../Ui/PasswordInput";
 
 export default function CreateAccount() {
   const navigate = useNavigate();
@@ -58,11 +59,7 @@ export default function CreateAccount() {
           <h1 className="text-3xl font-bold text-darkBlue">Create Account</h1>
           <Input {...register("name")} placeholder="Name" />
           <Input {...register("email")} type="email" placeholder="Email" />
-          <Input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-          />
+          <PasswordInput {...register("password")} placeholder="Password" />
           <Button type="submit" className="w-60 mt-4">
             {isAddNewUserPending || isLoginUserPending ? (
               <LoadingSpinner />

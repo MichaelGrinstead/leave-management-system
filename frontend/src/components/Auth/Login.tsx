@@ -5,6 +5,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useLogin } from "../../hooks/useLogin";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useEffect } from "react";
+import PasswordInput from "../Ui/PasswordInput";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,11 +37,7 @@ export default function Login() {
         >
           <h1 className="text-3xl text-darkBlue font-bold">Login</h1>
           <Input {...register("email")} type="email" placeholder="Email" />
-          <Input
-            {...register("password")}
-            type="password"
-            placeholder="Password"
-          />
+          <PasswordInput {...register("password")} placeholder="Password" />
           <Button type="submit" className="w-60 mt-4">
             {isLoginUserPending ? <LoadingSpinner /> : "Login"}
           </Button>

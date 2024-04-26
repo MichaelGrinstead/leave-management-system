@@ -30,7 +30,7 @@ Route::get('/leave-requests/{id}', [LeaveRequestController::class, 'show'])-> mi
 Route::put('/leave-requests/{id}', [LeaveRequestController::class, 'update'])-> middleware('auth:sanctum');
 Route::get('/leave-requests', [LeaveRequestController::class, 'indexAll'])-> middleware('auth:sanctum');
 
-Route::get('/leave-requests/search', [LeaveRequestController::class, 'search'])-> middleware('auth:sanctum');
+Route::get('/search', [LeaveRequestController::class, 'search'])-> middleware('auth:sanctum');
 
 
 Route::put('/status/{id}', [LeaveRequestController::class, 'updateStatus'])-> middleware('auth:sanctum');

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { LeaveRequestServer } from "../types";
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
-const route = `${apiUrl}/leave-requests/search?query=`;
+const route = `${apiUrl}/search?query=`;
 
 export const useSearch = (
   searchTerm: string | null
@@ -11,6 +11,7 @@ export const useSearch = (
   isSearchLoading: boolean;
   errorSearching: Error | null;
 } => {
+  console.log("searching", searchTerm);
   const {
     data: leaveRequests,
     isLoading: isSearchLoading,
@@ -31,8 +32,10 @@ export const useSearch = (
 
       return response.json();
     },
+    enabled: !!searchTerm && searchTerm.length > 0,
   });
 
+  console.log("searched", leaveRequests);
   return {
     leaveRequests: leaveRequests || [],
     isSearchLoading,

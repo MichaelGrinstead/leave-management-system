@@ -31,8 +31,6 @@ export const useUpdateStatus = () => {
     mutationFn: add,
   });
 
-  console.log("error", errorUpdatingStatus);
-
   return {
     updateStatus,
     isUpdateStatusPending,

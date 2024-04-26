@@ -180,6 +180,7 @@ class LeaveRequestController extends Controller
 
     public function search(Request $request)
     {
+        log::info("search");
         $isAdmin = $request->user()->role === 'admin';
         
         $request->validate([
@@ -194,10 +195,11 @@ class LeaveRequestController extends Controller
             $leaveRequestsQuery->where('user_id', $request->user()->id);
         }
     
-        $leaveRequestsQuery->where(function ($q) use ($query) {
+        $leaveRequestsQuery->where(function ($q) use ($query, $isAdmin) {
             $q->where('type', 'LIKE', "%{$query}%")
               ->orWhere('reason', 'LIKE', "%{$query}%")
               ->orWhere('status', 'LIKE', "%{$query}%");
+
               
             // Only add user subquery if admin
             if ($isAdmin) {
@@ -211,6 +213,7 @@ class LeaveRequestController extends Controller
         });
     
         $leaveRequests = $leaveRequestsQuery->get();
+        log::info($leaveRequests->count());
     
         return response()->json($leaveRequests);
     }

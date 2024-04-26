@@ -2,9 +2,15 @@ import { Input } from "./Input";
 import { useEffect, useRef, useState } from "react";
 import { Search } from "lucide-react";
 
-export default function SearchBar({ ...props }) {
-  const [searchTerm, setSearchTerm] = useState("");
-
+interface SearchBarProps {
+  searchTerm: string;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+}
+export default function SearchBar({
+  searchTerm,
+  setSearchTerm,
+  ...props
+}: SearchBarProps) {
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

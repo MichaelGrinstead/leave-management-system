@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { LeaveRequestClient } from "../types";
+import { LeaveRequestUpdate } from "../types";
 
 const apiUrl = import.meta.env.VITE_API_URL as string;
 const route = `${apiUrl}/leave-requests`;
@@ -11,7 +11,7 @@ export const useAddLeaveRequest = () => {
     startDate,
     endDate,
     reason,
-  }: LeaveRequestClient) {
+  }: LeaveRequestUpdate) {
     console.log("user id hook", userId);
     const response = await fetch(route, {
       method: "POST",

@@ -13,8 +13,7 @@ class LeaveRequestController extends Controller
 {
     public function store(Request $request)
     {
-        log::info("Leave request store");
-        log::info($request);
+
         $isAdmin = $request->user()->role === 'admin';
 
         $rules = [
@@ -30,7 +29,7 @@ class LeaveRequestController extends Controller
 
 
         try{
-            log::info("Leave request store try block");
+
             $validatedData = $request->validate($rules);
 
             $formattedStartDate = Carbon::parse($validatedData['start_date']);
@@ -74,6 +73,56 @@ class LeaveRequestController extends Controller
     {
         try{
             $leaveRequest = LeaveRequest::findOrFail($id);
+            return response()->json($leaveRequest, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Leave request not found'], 404);
+        } catch (Exception $e) {
+            Log::error("General error: " . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+      
+
+
+        $rules = [
+            'type' => 'string',
+            'start_date' => 'date',
+            'end_date' => 'date',
+            'reason' => 'string'
+        ];
+
+        try{
+            $validatedData = $request->validate($rules);
+        }catch (ValidationException $ve) {
+            Log::error("Validation error: " . $ve->getMessage());
+            return response()->json(['error' => 'Validation error'], 400);
+        }
+
+        try {
+            $leaveRequest = LeaveRequest::findOrFail($id);
+
+            if (array_key_exists('type', $validatedData)) {
+                $leaveRequest->type = $validatedData['type'];
+            }
+
+            if (array_key_exists('start_date', $validatedData)) {
+                $leaveRequest->start_date = $validatedData['start_date'];
+            }
+
+            if (array_key_exists('end_date', $validatedData)) {
+                $leaveRequest->end_date = $validatedData['end_date'];
+            }
+
+            if (array_key_exists('reason', $validatedData)) {
+                $leaveRequest->reason = $validatedData['reason'];
+            }
+
+
+            $leaveRequest->save();
+
             return response()->json($leaveRequest, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Leave request not found'], 404);

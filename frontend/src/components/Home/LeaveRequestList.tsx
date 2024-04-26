@@ -2,11 +2,14 @@ import LeaveRequest from "./LeaveRequest";
 import LeaveRequestListHeader from "./LeaveRequestListHeader";
 import { useGetLeaveRequestsAll } from "../../hooks/useGetLeaveRequestsAll";
 import { LeaveRequestClient, LeaveRequestServer } from "../../types";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function LeaveRequestList() {
+  const { isAdmin, userId } = useContext(AuthContext);
   const { leaveRequests, refetchLeaveRequests } = useGetLeaveRequestsAll();
 
-  const requests: LeaveRequestClient[] = leaveRequests.map(
+  const leaveRequestsUnfiltered: LeaveRequestClient[] = leaveRequests.map(
     (request: LeaveRequestServer) => {
       return {
         id: request.id,
@@ -20,7 +23,12 @@ export default function LeaveRequestList() {
     }
   );
 
-  console.log(leaveRequests);
+  const leaveRequestsFiltered = leaveRequestsUnfiltered.filter((request) => {
+    return request.userId === userId?.toString();
+  });
+
+  const requests = isAdmin ? leaveRequestsUnfiltered : leaveRequestsFiltered;
+
   return (
     <div className="flex flex-col w-full items-center justify-center gap-2">
       <LeaveRequestListHeader />
@@ -28,7 +36,7 @@ export default function LeaveRequestList() {
         <LeaveRequest
           key={leaveRequest.id}
           id={leaveRequest.id}
-          userId={leaveRequest.userId.toString()}
+          userId={leaveRequest.userId && leaveRequest.userId.toString()}
           leaveType={leaveRequest.type}
           startDate={leaveRequest.startDate}
           returnDate={leaveRequest.endDate}

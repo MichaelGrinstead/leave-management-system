@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { DatePicker } from "../Ui/DatePicker";
 import DropDown from "../Ui/Select";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useGetUser } from "../../hooks/useGetUser";
 import { ChevronLeft } from "lucide-react";
@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { useGetUsers } from "../../hooks/useGetUsers";
 import { Input } from "../Ui/Input";
 import { useAddLeaveRequest } from "../../hooks/useAddLeaveRequest";
+import { useToast } from "../../hooks/useToast";
+import { LoadingSpinner } from "../Ui/LoadingSpinner";
 
 const leaveRequestSchema = z
   .object({
@@ -30,6 +32,7 @@ const leaveRequestSchema = z
 const leaveTypes = ["Personal", "Sick", "Vacation", "Bereavement"];
 
 export default function CreateLeaveRequest() {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const { isAdmin, userId } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
@@ -101,8 +104,22 @@ export default function CreateLeaveRequest() {
     }
   };
 
-  console.log(getValues());
-  console.log(errors);
+  useEffect(() => {
+    if (isAddLeaveRequestSuccess) {
+      toast({
+        title: "Leave request created",
+        description: "Your leave request was created successfully",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } else if (errorAddingLeaveRequest) {
+      toast({
+        title: "Error",
+        description: "There was an error creating the leave request",
+      });
+    }
+  }, [isAddLeaveRequestSuccess, errorAddingLeaveRequest]);
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -175,7 +192,9 @@ export default function CreateLeaveRequest() {
             label="Reason"
           />
 
-          <Button className="w-72 mt-6">Create</Button>
+          <Button className="w-72 mt-6">
+            {isAddLeaveRequestPending ? <LoadingSpinner /> : "Create"}
+          </Button>
         </form>
       </FormProvider>
     </div>

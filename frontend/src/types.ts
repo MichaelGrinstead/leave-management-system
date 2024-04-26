@@ -7,12 +7,12 @@ export interface User {
 
 export interface LeaveRequestClient {
   id: number;
-  userId: string;
+  userId?: string;
   type: string;
   startDate: string;
   endDate: string;
   reason: string;
-  status: string;
+  status?: string;
 }
 
 export interface LeaveRequestServer {
@@ -25,4 +25,12 @@ export interface LeaveRequestServer {
   type: string;
   updated_at: string;
   user_id: number;
+}
+
+export interface LeaveRequestUpdate {
+  userId?: string | null | undefined;
+  type: string;
+  startDate: string;
+  endDate: string;
+  reason: string;
 }

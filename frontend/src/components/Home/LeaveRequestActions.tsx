@@ -2,6 +2,7 @@ import { FilePenLine, CircleCheck, CircleX } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useUpdateStatus } from "../../hooks/useUpdateStatus";
+import { useNavigate } from "react-router-dom";
 
 interface LeaveRequestActionsProps {
   id: number;
@@ -12,6 +13,7 @@ export default function LeaveRequestActions({
   id,
   refetchLeaveRequests,
 }: LeaveRequestActionsProps) {
+  const navigate = useNavigate();
   const { isAdmin } = useContext(AuthContext);
   const { updateStatus, isUpdateStatusSuccess } = useUpdateStatus();
 
@@ -23,7 +25,7 @@ export default function LeaveRequestActions({
 
   return (
     <div className="flex flex-row items-center justify-center gap-2 ">
-      <button>
+      <button onClick={() => navigate(`edit-leave-request/${id}`)}>
         <FilePenLine className="text-midBlue" size={24} />
       </button>
       {isAdmin && (

@@ -5,6 +5,7 @@ import CreateAccount from "./components/Auth/CreateAccount";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RequireAuth from "./components/Auth/RequireAuth";
 import CreateLeaveRequest from "./components/Home/CreateLeaveRequest";
+import EditLeaveRequest from "./components/Home/EditLeaveRequest";
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
           <Route
             path="/create-leave-request"
             element={<CreateLeaveRequest />}
+          />
+          <Route
+            path="/edit-leave-request/:id"
+            element={<EditLeaveRequest />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />

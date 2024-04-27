@@ -48,9 +48,9 @@ export default function LeaveRequestList() {
         setLeaveRequestsSearched={setLeaveRequestsSearched}
       />
 
-      <div className="flex flex-col w-full items-center justify-center gap-2">
-        <LeaveRequestListHeader />
-        {requests.length > 0 ? (
+      {requests.length > 0 ? (
+        <div className="flex flex-col w-full items-center justify-center gap-2">
+          <LeaveRequestListHeader />
           <div className="flex flex-col w-full items-center justify-center gap-2">
             {requests.map((leaveRequest: LeaveRequestClient) => (
               <LeaveRequest
@@ -65,12 +65,12 @@ export default function LeaveRequestList() {
               />
             ))}
           </div>
-        ) : (
-          <h3 className="text-center text-2xl font-semibold mt-12">
-            No leave requests found
-          </h3>
-        )}
-      </div>
+        </div>
+      ) : (
+        <h3 className="text-center text-2xl font-semibold mt-12">
+          No leave requests found
+        </h3>
+      )}
     </div>
   );
 }

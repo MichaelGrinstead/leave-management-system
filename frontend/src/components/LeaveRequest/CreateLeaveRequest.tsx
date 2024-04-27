@@ -15,6 +15,7 @@ import { Input } from "../Ui/Input";
 import { useAddLeaveRequest } from "../../hooks/useAddLeaveRequest";
 import { useToast } from "../../hooks/useToast";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
+import { useCheckDateOverlap } from "../../hooks/useCheckDateOverlap";
 
 const leaveRequestSchema = z
   .object({
@@ -78,7 +79,10 @@ export default function CreateLeaveRequest() {
   const { employee, type } = getValues();
 
   const { startDate, endDate } = watch();
-  console.log(startDate, endDate);
+  const { isOverlap, refetchCheckOverlap } = useCheckDateOverlap(
+    new Date(startDate).toISOString(),
+    new Date(endDate).toISOString()
+  );
 
   function timeInDays(start: number, end: number) {
     const timeInSeconds = end - start;
@@ -121,6 +125,10 @@ export default function CreateLeaveRequest() {
       });
     }
   }, [isAddLeaveRequestSuccess, errorAddingLeaveRequest]);
+
+  useEffect(() => {
+    refetchCheckOverlap;
+  }, [startDate, endDate]);
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -188,6 +196,10 @@ export default function CreateLeaveRequest() {
             {errors.endDate ? (
               <h6 className="text-red-600 m-auto py-1 font-semibold">
                 {errors.endDate?.message}
+              </h6>
+            ) : isOverlap?.overlap ? (
+              <h6 className="text-red-600 m-auto py-1 font-semibold">
+                Your chosen date overlaps with another leave request
               </h6>
             ) : (
               <div className="h-6 py-1"></div>

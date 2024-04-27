@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LeaveRequestController;
-
+use App\Http\Controllers\DateCheckController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,6 +35,8 @@ Route::get('/search', [LeaveRequestController::class, 'search'])-> middleware('a
 
 
 Route::put('/status/{id}', [LeaveRequestController::class, 'updateStatus'])-> middleware('auth:sanctum');
+
+Route::get('/check-date-overlap', [DateCheckController::class, 'checkDateOverlap']);
 
 Route::middleware('auth:sanctum', 'api')->get('/user', function (Request $request) {
     return $request->user();

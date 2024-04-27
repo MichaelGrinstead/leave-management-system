@@ -16,6 +16,7 @@ import { useAddLeaveRequest } from "../../hooks/useAddLeaveRequest";
 import { useToast } from "../../hooks/useToast";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useCheckDateOverlap } from "../../hooks/useCheckDateOverlap";
+import { adjustForTimezone } from "../../utils/adjustForTimezone";
 
 const leaveRequestSchema = z
   .object({
@@ -95,15 +96,15 @@ export default function CreateLeaveRequest() {
       addLeaveRequest({
         userId: typeof employee === "object" ? employee.id : "",
         type: type,
-        startDate: new Date(startDate).toISOString(),
-        endDate: new Date(endDate).toISOString(),
+        startDate: adjustForTimezone(new Date(startDate)).toISOString(),
+        endDate: adjustForTimezone(new Date(endDate)).toISOString(),
         reason: getValues().reason,
       });
     } else {
       addLeaveRequest({
         type: type,
-        startDate: new Date(startDate).toISOString(),
-        endDate: new Date(endDate).toISOString(),
+        startDate: adjustForTimezone(new Date(startDate)).toISOString(),
+        endDate: adjustForTimezone(new Date(endDate)).toISOString(),
         reason: getValues().reason,
       });
     }

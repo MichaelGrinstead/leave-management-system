@@ -8,7 +8,6 @@ export default function RequireAuth({
   children: React.ReactNode;
 }) {
   const { isLoggedIn } = useContext(AuthContext);
-  console.log("is logged in", isLoggedIn);
   if (isLoggedIn) {
     return children;
   } else {

@@ -26,8 +26,6 @@ export default function LeaveRequestList() {
     ? refetchLeaveRequestsAll
     : refetchLeaveRequestsUser;
 
-  console.log("searched", leaveRequestsSearched);
-
   const requests: LeaveRequestClient[] = leaveRequests.map(
     (request: LeaveRequestServer) => {
       return {
@@ -42,7 +40,22 @@ export default function LeaveRequestList() {
     }
   );
 
-  console.log("requests", requests);
+  // console.log(requests);
+
+  const sortedByEndDate = requests
+    .slice()
+    .sort(
+      (a, b) => new Date(a.endDate).getTime() - new Date(b.endDate).getTime()
+    );
+  const sortedByStartDate = requests
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    );
+
+  // console.log("sortedByEndDate", sortedByEndDate);
+  // console.log("sortedByStartDate", sortedByStartDate);
 
   return (
     <div className="flex flex-col items-center">

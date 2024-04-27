@@ -11,7 +11,6 @@ export const useSearch = (
   isSearchLoading: boolean;
   errorSearching: Error | null;
 } => {
-  console.log("searching", searchTerm);
   const {
     data: leaveRequests,
     isLoading: isSearchLoading,
@@ -35,7 +34,6 @@ export const useSearch = (
     enabled: !!searchTerm && searchTerm.length > 0,
   });
 
-  console.log("searched", leaveRequests);
   return {
     leaveRequests: leaveRequests || [],
     isSearchLoading,

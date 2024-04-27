@@ -16,7 +16,6 @@ export default function Search({ setLeaveRequestsSearched }: SearchProps) {
   const { leaveRequests, isSearchLoading } = useSearch(debouncedSearchTerm);
 
   useEffect(() => {
-    console.log("requests");
     setLeaveRequestsSearched(leaveRequests);
   }, [debouncedSearchTerm, isSearchLoading]);
 

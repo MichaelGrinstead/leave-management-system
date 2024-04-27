@@ -33,13 +33,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
-  console.log({
-    userId,
-    token,
-    isAdmin,
-    isLoggedIn,
-  });
-
   const { userData } = useGetUser(userId);
 
   useEffect(() => {

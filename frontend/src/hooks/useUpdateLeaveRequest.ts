@@ -10,7 +10,6 @@ interface updateLeaveRequestProps {
 }
 
 export const useUpdateLeaveRequest = () => {
-  console.log("hook updating");
   async function update({ leaveRequestUpdate, id }: updateLeaveRequestProps) {
     const response = await fetch(`${route}${id}`, {
       method: "PUT",
@@ -20,7 +19,11 @@ export const useUpdateLeaveRequest = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ...leaveRequestUpdate,
+        user_id: Number(leaveRequestUpdate.userId),
+        type: leaveRequestUpdate.type,
+        start_date: leaveRequestUpdate.startDate,
+        end_date: leaveRequestUpdate.endDate,
+        reason: leaveRequestUpdate.reason,
       }),
     });
     if (!response.ok) {

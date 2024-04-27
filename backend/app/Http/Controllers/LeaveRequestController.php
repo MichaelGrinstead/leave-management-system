@@ -84,6 +84,8 @@ class LeaveRequestController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        log::info($request->all());
       
 
 
@@ -94,12 +96,19 @@ class LeaveRequestController extends Controller
             'reason' => 'string'
         ];
 
+   
+
         try{
             $validatedData = $request->validate($rules);
         }catch (ValidationException $ve) {
             Log::error("Validation error: " . $ve->getMessage());
             return response()->json(['error' => 'Validation error'], 400);
         }
+
+        log::info($validatedData);
+
+        $validatedData['start_date'] = Carbon::parse($validatedData['start_date']);
+        $validatedData['end_date'] = Carbon::parse($validatedData['end_date']);
 
         try {
             $leaveRequest = LeaveRequest::findOrFail($id);
@@ -122,6 +131,7 @@ class LeaveRequestController extends Controller
 
 
             $leaveRequest->save();
+            log::info($leaveRequest);
 
             return response()->json($leaveRequest, 200);
         } catch (ModelNotFoundException $e) {

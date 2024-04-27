@@ -9,12 +9,13 @@ import { ChevronLeft } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "../Ui/Input";
 import { useGetLeaveRequest } from "../../hooks/useGetLeaveRequest";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useGetUser } from "../../hooks/useGetUser";
 import { useUpdateLeaveRequest } from "../../hooks/useUpdateLeaveRequest";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useToast } from "../../hooks/useToast";
+import { adjustForTimezone } from "../../utils/adjustForTimezone";
 
 const leaveRequestSchema = z
   .object({
@@ -70,25 +71,30 @@ export default function EditLeaveRequest() {
     watch,
   } = methods;
 
-  const { startDate, endDate, type, reason } = getValues();
-  console.log("values", getValues());
-  console.log("watch", watch());
+  const { type, reason } = getValues();
+  const { startDate, endDate } = watch();
+  console.log("type", type);
+  console.log("reason", reason);
+  console.log("startDate", new Date(startDate));
+  console.log("endDate", new Date(endDate));
 
-  function timeInDays(start: number, end: number) {
+  const timeInDays = (start: number, end: number) => {
     const timeInSeconds = end - start;
     if (timeInSeconds < 0) return 0;
     return (timeInSeconds / 60 / 60 / 24 / 1000).toFixed(2);
-  }
+  };
 
   const handleUpdateLeaveRequest = () => {
     console.log("updating");
     const leaveRequestUpdate = {
       userId: userId,
-      startDate: new Date(startDate).toISOString(),
-      endDate: new Date(endDate).toISOString(),
+      startDate: adjustForTimezone(new Date(startDate)).toISOString(),
+      endDate: adjustForTimezone(new Date(endDate)).toISOString(),
       type,
       reason,
     };
+
+    console.log("leaveRequestUpdate", leaveRequestUpdate);
 
     updateLeaveRequest({ leaveRequestUpdate, id });
   };
@@ -104,7 +110,7 @@ export default function EditLeaveRequest() {
 
       reset(defaultLeaveRequestData);
     }
-  }, [leaveRequest, isGetLeaveRequestSuccess]);
+  }, [leaveRequest]);
 
   useEffect(() => {
     if (isUpdateLeaveRequestSuccess) {

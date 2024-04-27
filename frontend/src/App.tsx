@@ -23,11 +23,19 @@ function App() {
           />
           <Route
             path="/create-leave-request"
-            element={<CreateLeaveRequest />}
+            element={
+              <RequireAuth>
+                <CreateLeaveRequest />
+              </RequireAuth>
+            }
           />
           <Route
             path="/edit-leave-request/:id"
-            element={<EditLeaveRequest />}
+            element={
+              <RequireAuth>
+                <EditLeaveRequest />
+              </RequireAuth>
+            }
           />
           <Route path="/login" element={<Login />} />
           <Route path="/create-account" element={<CreateAccount />} />

@@ -50,18 +50,26 @@ export default function LeaveRequestList() {
 
       <div className="flex flex-col w-full items-center justify-center gap-2">
         <LeaveRequestListHeader />
-        {requests.map((leaveRequest: LeaveRequestClient) => (
-          <LeaveRequest
-            key={leaveRequest.id}
-            id={leaveRequest.id}
-            userId={leaveRequest.userId && leaveRequest.userId.toString()}
-            leaveType={leaveRequest.type}
-            startDate={leaveRequest.startDate}
-            returnDate={leaveRequest.endDate}
-            status={leaveRequest.status}
-            refetchLeaveRequests={refetchLeaveRequests}
-          />
-        ))}
+        {requests.length > 0 ? (
+          <div className="flex flex-col w-full items-center justify-center gap-2">
+            {requests.map((leaveRequest: LeaveRequestClient) => (
+              <LeaveRequest
+                key={leaveRequest.id}
+                id={leaveRequest.id}
+                userId={leaveRequest.userId && leaveRequest.userId.toString()}
+                leaveType={leaveRequest.type}
+                startDate={leaveRequest.startDate}
+                returnDate={leaveRequest.endDate}
+                status={leaveRequest.status}
+                refetchLeaveRequests={refetchLeaveRequests}
+              />
+            ))}
+          </div>
+        ) : (
+          <h3 className="text-center text-2xl font-semibold mt-12">
+            No leave requests found
+          </h3>
+        )}
       </div>
     </div>
   );

@@ -180,7 +180,7 @@ class LeaveRequestController extends Controller
 
     public function search(Request $request)
     {
-        log::info("search");
+
         $isAdmin = $request->user()->role === 'admin';
         
         $request->validate([
@@ -216,6 +216,28 @@ class LeaveRequestController extends Controller
         log::info($leaveRequests->count());
     
         return response()->json($leaveRequests);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+  
+        $isAdmin = $request->user()->role === 'admin';
+
+        if (!$isAdmin) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        try {
+            $leaveRequest = LeaveRequest::findOrFail($id);
+            $leaveRequest->delete();
+            return response()->json(['message' => 'Leave request deleted'], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Leave request not found'], 404);
+        } catch (Exception $e) {
+            Log::error("General error: " . $e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
+
     }
     
 

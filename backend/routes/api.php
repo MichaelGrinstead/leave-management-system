@@ -28,6 +28,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::post('/leave-requests', [LeaveRequestController::class, 'store'])-> middleware('auth:sanctum');
 Route::get('/leave-requests/{id}', [LeaveRequestController::class, 'show'])-> middleware('auth:sanctum');
 Route::put('/leave-requests/{id}', [LeaveRequestController::class, 'update'])-> middleware('auth:sanctum');
+Route::delete('/leave-requests/{id}', [LeaveRequestController::class, 'destroy'])-> middleware('auth:sanctum');
 Route::get('/leave-requests', [LeaveRequestController::class, 'indexAll'])-> middleware('auth:sanctum');
 
 Route::get('/search', [LeaveRequestController::class, 'search'])-> middleware('auth:sanctum');
@@ -35,6 +36,6 @@ Route::get('/search', [LeaveRequestController::class, 'search'])-> middleware('a
 
 Route::put('/status/{id}', [LeaveRequestController::class, 'updateStatus'])-> middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum', 'api')->get('/user', function (Request $request) {
     return $request->user();
 });

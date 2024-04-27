@@ -22,6 +22,7 @@ export const useGetLeaveRequestsUser = (
     queryFn: async () => {
       const response = await fetch(`${route}${userId}`, {
         headers: {
+          method: "GET",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },

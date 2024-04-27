@@ -20,6 +20,7 @@ export const useGetLeaveRequestsAll = (): {
     queryFn: async () => {
       const response = await fetch(route, {
         headers: {
+          method: "GET",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },

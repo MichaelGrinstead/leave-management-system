@@ -40,7 +40,7 @@ export default function LeaveRequest({
         <h3 className="min-w-32">{returnDate}</h3>
         <h3 className={clx("min-w-32 font-semibold", statusColor)}>{status}</h3>
 
-        <div className="min-w-24">
+        <div className="min-w-32">
           <LeaveRequestActions
             id={id}
             refetchLeaveRequests={refetchLeaveRequests}

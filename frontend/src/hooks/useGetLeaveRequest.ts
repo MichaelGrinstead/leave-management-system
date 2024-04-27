@@ -23,6 +23,7 @@ export const useGetLeaveRequest = (
     queryKey: ["leaveRequest", id],
     queryFn: async () => {
       const response = await fetch(`${route}${id}`, {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",

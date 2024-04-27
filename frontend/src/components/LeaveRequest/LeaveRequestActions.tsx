@@ -25,6 +25,10 @@ export default function LeaveRequestActions({
 
   useEffect(() => {
     if (isUpdateStatusSuccess) {
+      toast({
+        title: `Leave Request id:${id} status updated`,
+        description: "The leave request status has been successfully updated",
+      });
       refetchLeaveRequests();
     }
   }, [isUpdateStatusSuccess]);
@@ -53,14 +57,14 @@ export default function LeaveRequestActions({
       </button>
 
       {isAdmin && (
-        <button onClick={() => updateStatus({ status: "accepted", id })}>
+        <button onClick={() => updateStatus({ status: "Accepted", id })}>
           <Tooltip content="Accept">
             <CircleCheck className="text-green-600" size={24} />
           </Tooltip>
         </button>
       )}
       {isAdmin && (
-        <button onClick={() => updateStatus({ status: "denied", id })}>
+        <button onClick={() => updateStatus({ status: "Denied", id })}>
           <Tooltip content="Deny">
             <CircleX className="text-red-600" size={24} />
           </Tooltip>

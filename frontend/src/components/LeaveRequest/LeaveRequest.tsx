@@ -1,4 +1,5 @@
 import { useGetUser } from "../../hooks/useGetUser";
+import { useToast } from "../../hooks/useToast";
 import { clx } from "../../utils/clx";
 import LeaveRequestActions from "./LeaveRequestActions";
 
@@ -24,9 +25,9 @@ export default function LeaveRequest({
   const { userData } = useGetUser(userId);
 
   const statusColor =
-    status === "accepted"
+    status === "Accepted"
       ? "text-green-600"
-      : status === "pending"
+      : status === "Pending"
       ? "black"
       : "text-red-600";
 

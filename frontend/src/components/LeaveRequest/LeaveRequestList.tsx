@@ -42,6 +42,8 @@ export default function LeaveRequestList() {
     }
   );
 
+  console.log("requests", requests);
+
   return (
     <div className="flex flex-col items-center">
       <LeaveRequestListActions

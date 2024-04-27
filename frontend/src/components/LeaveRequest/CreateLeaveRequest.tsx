@@ -18,14 +18,13 @@ import { LoadingSpinner } from "../Ui/LoadingSpinner";
 
 const leaveRequestSchema = z
   .object({
-    employee: z.object({}),
     startDate: z.number(),
     endDate: z.number(),
     type: z.string().min(1, { message: "Type is required" }),
     reason: z.string().min(1, { message: "Reason is required" }),
   })
   .refine((data) => data.startDate < data.endDate, {
-    message: "Start date must be before end date",
+    message: "End date must come after start date",
     path: ["endDate"],
   });
 
@@ -46,8 +45,6 @@ export default function CreateLeaveRequest() {
     isAddLeaveRequestSuccess,
     errorAddingLeaveRequest,
   } = useAddLeaveRequest();
-
-  console.log(usersData);
 
   const defaultLeaveRequestData = {
     employee: isAdmin
@@ -73,11 +70,15 @@ export default function CreateLeaveRequest() {
     formState: { errors },
     handleSubmit,
     watch,
+    trigger,
   } = methods;
+
+  console.log(errors);
 
   const { employee, type } = getValues();
 
   const { startDate, endDate } = watch();
+  console.log(startDate, endDate);
 
   function timeInDays(start: number, end: number) {
     const timeInSeconds = end - start;
@@ -165,31 +166,42 @@ export default function CreateLeaveRequest() {
               }}
             />
           </div>
-          <div className="flex flex-row gap-4">
-            <DatePicker
-              label="Start date"
-              date={new Date(startDate)}
-              setDate={(startDate: Date | undefined) => {
-                console.log("setting date"),
-                  startDate && setValue("startDate", startDate.getTime());
-              }}
-            />
-            <DatePicker
-              label="End date"
-              date={new Date(endDate)}
-              setDate={(endDate: Date | undefined) =>
-                endDate && setValue("endDate", endDate.getTime())
-              }
-            />
+          <div className="flex flex-col">
+            <div className="flex flex-row gap-4">
+              <DatePicker
+                label="Start date"
+                date={new Date(startDate)}
+                setDate={(startDate: Date | undefined) => {
+                  console.log("setting date"),
+                    startDate && setValue("startDate", startDate.getTime());
+                }}
+              />
+              <DatePicker
+                label="End date"
+                date={new Date(endDate)}
+                setDate={(endDate: Date | undefined) => {
+                  endDate && setValue("endDate", endDate.getTime()),
+                    trigger("endDate");
+                }}
+              />
+            </div>
+            {errors.endDate ? (
+              <h6 className="text-red-600 m-auto py-1 font-semibold">
+                {errors.endDate?.message}
+              </h6>
+            ) : (
+              <div className="h-6 py-1"></div>
+            )}
+            <h3 className="font-semibold m-auto">
+              Total days: {timeInDays(startDate, endDate)}
+            </h3>
           </div>
-          <h3 className="font-semibold">
-            Total days: {timeInDays(startDate, endDate)}
-          </h3>
 
           <Textarea
             {...register("reason")}
             className="w-[592px] h-36"
             label="Reason"
+            error={errors.reason && errors.reason.message}
           />
 
           <Button className="w-72 mt-6">

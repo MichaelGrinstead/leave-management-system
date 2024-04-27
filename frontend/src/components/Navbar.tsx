@@ -21,7 +21,7 @@ export default function Navbar() {
   const name = isAdmin ? (
     <div className="flex flex-row items-center justify-center gap-1">
       <h3 className="text-white">Hello, {userData.name}</h3>
-      <Shield className="text-midBlue" size={20} />
+      <Shield className="text-white" size={20} />
     </div>
   ) : (
     <h3 className="text-white">Hello, {userData.name}</h3>
@@ -40,7 +40,7 @@ export default function Navbar() {
     }
   }, [isLogoutUserSuccess]);
   return (
-    <nav className="sticky top-0 z-60 bg-darkBlueGrey transition-colors duration-500 ease-in-out">
+    <nav className="sticky top-0 z-60 bg-darkBlue transition-colors duration-500 ease-in-out">
       <div
         className={clx(
           "relative  flex  items-center px-4 py-4 h-12",
@@ -49,10 +49,10 @@ export default function Navbar() {
       >
         <h3 className="text-white text-2xl">Leave Management System</h3>
         {userData.name !== "" && (
-          <div className="flex flex-row items-center justify-center gap-4">
+          <div className="flex flex-row items-center justify-center gap-6">
             {name}
             <button className="text-white" onClick={() => handleLogout()}>
-              log out
+              logout
             </button>
           </div>
         )}

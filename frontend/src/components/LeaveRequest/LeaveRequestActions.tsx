@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useUpdateStatus } from "../../hooks/useUpdateStatus";
 import { useNavigate } from "react-router-dom";
+import { Tooltip } from "../Ui/Tooltip";
 
 interface LeaveRequestActionsProps {
   id: number;
@@ -26,16 +27,22 @@ export default function LeaveRequestActions({
   return (
     <div className="flex flex-row items-center justify-center gap-2 ">
       <button onClick={() => navigate(`edit-leave-request/${id}`)}>
-        <FilePenLine className="text-midBlue" size={24} />
+        <Tooltip content="Edit">
+          <FilePenLine className="text-midBlue" size={24} />
+        </Tooltip>
       </button>
       {isAdmin && (
         <button onClick={() => updateStatus({ status: "accepted", id })}>
-          <CircleCheck className="text-green-500" size={24} />
+          <Tooltip content="Accept">
+            <CircleCheck className="text-green-600" size={24} />
+          </Tooltip>
         </button>
       )}
       {isAdmin && (
         <button onClick={() => updateStatus({ status: "denied", id })}>
-          <CircleX className="text-red-500" size={24} />
+          <Tooltip content="Deny">
+            <CircleX className="text-red-600" size={24} />
+          </Tooltip>
         </button>
       )}
     </div>

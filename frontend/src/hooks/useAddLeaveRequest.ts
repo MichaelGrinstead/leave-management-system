@@ -31,7 +31,6 @@ export const useAddLeaveRequest = () => {
     if (!response.ok) {
       throw new Error(response.statusText);
     }
-    console.log(await response.json());
   }
 
   const {
@@ -42,8 +41,6 @@ export const useAddLeaveRequest = () => {
   } = useMutation({
     mutationFn: add,
   });
-
-  console.log("error", errorAddingLeaveRequest);
 
   return {
     addLeaveRequest,

@@ -33,11 +33,11 @@ type TooltipProps = {
 export const Tooltip = ({ content, children, className }: TooltipProps) => {
   return (
     <TooltipProvider>
-      <TooltipRoot>
+      <TooltipRoot delayDuration={200}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
           side="bottom"
-          className={clx(" text-black bg-white", className)}
+          className={clx(" text-black bg-white font-semibold", className)}
         >
           <p>{content}</p>
         </TooltipContent>

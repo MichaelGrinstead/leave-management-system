@@ -25,10 +25,10 @@ export default function LeaveRequest({
 
   const statusColor =
     status === "accepted"
-      ? "text-green-500"
+      ? "text-green-600"
       : status === "pending"
       ? "black"
-      : "text-red-500";
+      : "text-red-600";
 
   return (
     <div className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md">

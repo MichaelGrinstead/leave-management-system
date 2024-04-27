@@ -24,7 +24,7 @@ const leaveRequestSchema = z
     reason: z.string().min(1, { message: "Reason is required" }),
   })
   .refine((data) => data.startDate < data.endDate, {
-    message: "Start date must be before end date",
+    message: "End date must come after start date",
     path: ["endDate"],
   });
 
@@ -159,32 +159,42 @@ export default function EditLeaveRequest() {
               />
             </div>
             {startDate && endDate && (
-              <div className="flex flex-row gap-4">
-                <DatePicker
-                  label="Start date"
-                  date={new Date(startDate)}
-                  setDate={(startDate: Date | undefined) => {
-                    console.log("setting date"),
-                      startDate && setValue("startDate", startDate.getTime());
-                  }}
-                />
-                <DatePicker
-                  label="End date"
-                  date={new Date(endDate)}
-                  setDate={(endDate: Date | undefined) =>
-                    endDate && setValue("endDate", endDate.getTime())
-                  }
-                />
+              <div className="flex flex-col">
+                <div className="flex flex-row gap-4">
+                  <DatePicker
+                    label="Start date"
+                    date={new Date(startDate)}
+                    setDate={(startDate: Date | undefined) => {
+                      console.log("setting date"),
+                        startDate && setValue("startDate", startDate.getTime());
+                    }}
+                  />
+                  <DatePicker
+                    label="End date"
+                    date={new Date(endDate)}
+                    setDate={(endDate: Date | undefined) =>
+                      endDate && setValue("endDate", endDate.getTime())
+                    }
+                  />
+                </div>
+                {errors.endDate ? (
+                  <h6 className="text-red-600 m-auto py-1 font-semibold">
+                    {errors.endDate?.message}
+                  </h6>
+                ) : (
+                  <div className="h-6 py-1"></div>
+                )}
+                <h3 className="font-semibold m-auto">
+                  Total days: {timeInDays(startDate, endDate)}
+                </h3>
               </div>
             )}
-            <h3 className="font-semibold">
-              Total days: {timeInDays(startDate, endDate)}
-            </h3>
 
             <Textarea
               {...register("reason")}
               className="w-[592px] h-36"
               label="Reason"
+              error={errors.reason && errors.reason.message}
             />
 
             <Button type="submit" className="w-72 mt-6">

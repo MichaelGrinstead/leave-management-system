@@ -1,11 +1,11 @@
 import Navbar from "./components/Navbar";
-import Home from "./components/Home/Home";
+import Home from "./components/Home";
 import Login from "./components/Auth/Login";
 import CreateAccount from "./components/Auth/CreateAccount";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RequireAuth from "./components/Auth/RequireAuth";
-import CreateLeaveRequest from "./components/Home/CreateLeaveRequest";
-import EditLeaveRequest from "./components/Home/EditLeaveRequest";
+import CreateLeaveRequest from "./components/LeaveRequest/CreateLeaveRequest";
+import EditLeaveRequest from "./components/LeaveRequest/EditLeaveRequest";
 
 function App() {
   return (

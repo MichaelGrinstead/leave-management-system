@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import SearchBar from "../Ui/SearchBar";
-import { useSearch } from "../../hooks/useSearch";
-import { LeaveRequestServer } from "../../types";
+import SearchBar from "./Ui/SearchBar";
+import { useSearch } from "../hooks/useSearch";
+import { LeaveRequestServer } from "../types";
 import { useDebounce } from "@uidotdev/usehooks";
 
 interface SearchProps {

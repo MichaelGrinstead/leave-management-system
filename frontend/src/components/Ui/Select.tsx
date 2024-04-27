@@ -138,7 +138,8 @@ const SelectSeparator = React.forwardRef<
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 interface DropDownProps {
-  label: string;
+  label?: string;
+  error?: string;
   placeholder: string;
   options: string[] | { name: string; id: string }[];
   onValueChange: (value: string | { name: string; id: string }) => void;
@@ -146,6 +147,7 @@ interface DropDownProps {
 
 export default function DropDown({
   label,
+  error,
   placeholder,
   options,
   onValueChange,
@@ -167,6 +169,7 @@ export default function DropDown({
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
+        <h6>{error}</h6>
       </div>
 
       <SelectContent>

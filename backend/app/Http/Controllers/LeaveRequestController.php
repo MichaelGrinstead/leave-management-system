@@ -154,7 +154,7 @@ class LeaveRequestController extends Controller
         }
 
         $rules = [
-            'status' => ['required', 'string', Rule::in(['pending', 'accepted', 'denied'])],
+            'status' => ['required', 'string', Rule::in(['Pending', 'Accepted', 'Denied'])],
         ];
 
         try{

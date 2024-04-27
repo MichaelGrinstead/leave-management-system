@@ -1,7 +1,7 @@
 import { LeaveRequestServer } from "../../types";
 import { Button } from "../Ui/Button";
 import { useNavigate } from "react-router-dom";
-import Search from "./Search";
+import Search from "../Search";
 
 interface LeaveRequestListActionsProps {
   setLeaveRequestsSearched: React.Dispatch<

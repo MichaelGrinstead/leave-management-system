@@ -16,6 +16,7 @@ import { useUpdateLeaveRequest } from "../../hooks/useUpdateLeaveRequest";
 import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useToast } from "../../hooks/useToast";
 import { adjustForTimezone } from "../../utils/adjustForTimezone";
+import { Skeleton } from "../Ui/Skeleton";
 
 const leaveRequestSchema = z
   .object({
@@ -138,8 +139,12 @@ export default function EditLeaveRequest() {
         <ChevronLeft /> Back
       </Button>
       {isGetLeaveRequestLoading ? (
-        <div className="flex flex-col items-center justify-center bg-white border gap-4 w-1/2 h-[600px] mt-24 shadow-custom p-4">
-          <LoadingSpinner className="h-12 w-12" />
+        <div className="flex flex-col items-center justify-start bg-white border gap-4 w-1/2 h-[600px] mt-24 shadow-custom p-4">
+          <Skeleton className="bg-coolGrey mt-6 h-[36px] w-[255px]" />
+          <Skeleton className="bg-coolGrey h-[64px] w-[592px]" />
+          <Skeleton className="bg-coolGrey h-[64px] w-[592px]" />
+          <Skeleton className="bg-coolGrey h-[144px] w-[592px] mt-12" />
+          <Skeleton className="bg-coolGrey h-[64px] w-[288px]" />
         </div>
       ) : (
         <FormProvider {...methods}>

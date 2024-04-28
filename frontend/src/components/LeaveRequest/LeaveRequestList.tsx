@@ -6,16 +6,23 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useGetLeaveRequestsUser } from "../../hooks/useGetLeaveRequestsUser";
 import LeaveRequestListActions from "./LeaveRequestListActions";
+import { Skeleton } from "../Ui/Skeleton";
 
 export default function LeaveRequestList() {
   const [leaveRequestsSearched, setLeaveRequestsSearched] = useState<
     LeaveRequestServer[] | null
   >(null);
   const { isAdmin, userId } = useContext(AuthContext);
-  const { leaveRequestsAll, refetchLeaveRequestsAll } =
-    useGetLeaveRequestsAll();
-  const { leaveRequestsUser, refetchLeaveRequestsUser } =
-    useGetLeaveRequestsUser(userId);
+  const {
+    leaveRequestsAll,
+    refetchLeaveRequestsAll,
+    isGetLeaveRequestsAllLoading,
+  } = useGetLeaveRequestsAll();
+  const {
+    leaveRequestsUser,
+    refetchLeaveRequestsUser,
+    isGetLeaveRequestsUserLoading,
+  } = useGetLeaveRequestsUser(userId);
 
   const [sortStartDates, setSortStartDates] = useState<boolean>(false);
   const [sortEndDates, setSortEndDates] = useState<boolean>(false);
@@ -28,6 +35,10 @@ export default function LeaveRequestList() {
   const refetchLeaveRequests = isAdmin
     ? refetchLeaveRequestsAll
     : refetchLeaveRequestsUser;
+
+  const isGetLeaveRequestsLoading = isAdmin
+    ? isGetLeaveRequestsAllLoading
+    : isGetLeaveRequestsUserLoading;
 
   const requests: LeaveRequestClient[] = leaveRequests.map(
     (request: LeaveRequestServer) => {
@@ -43,7 +54,7 @@ export default function LeaveRequestList() {
     }
   );
 
-  // console.log(requests);
+  console.log(localStorage.getItem("token"));
 
   const sortedByEndDate = requests
     .slice()
@@ -121,9 +132,19 @@ export default function LeaveRequestList() {
             </div>
           )}
         </div>
+      ) : isGetLeaveRequestsLoading ? (
+        <div className="flex flex-col w-full items-center justify-center gap-2">
+          <Skeleton className="sticky top-56 h-10 flex flex-row bg-white text-center font-semibold shadow-custom border w-3/4 justify-between px-10 py-2" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+        </div>
       ) : (
-        <h3 className="text-center text-2xl font-semibold mt-12">
-          No leave requests found
+        <h3 className="text-center opacity-70 text-2xl font-semibold mt-40">
+          No Leave Requests found
         </h3>
       )}
     </div>

@@ -47,26 +47,32 @@ export default function LeaveRequestActions({
     <div className="flex flex-row items-center justify-center gap-2 ">
       <button onClick={() => navigate(`edit-leave-request/${id}`)}>
         <Tooltip content="Edit">
-          <FilePenLine className="text-midBlue" size={24} />
+          <FilePenLine
+            className="text-midBlue hover:brightness-125"
+            size={24}
+          />
         </Tooltip>
       </button>
       <button onClick={() => deleteLeaveRequest(id)}>
         <Tooltip content="Delete">
-          <Trash2 className="text-darkBlue" size={24} />
+          <Trash2 className="text-darkBlue hover:brightness-125" size={24} />
         </Tooltip>
       </button>
 
       {isAdmin && (
         <button onClick={() => updateStatus({ status: "Accepted", id })}>
           <Tooltip content="Accept">
-            <CircleCheck className="text-green-600" size={24} />
+            <CircleCheck
+              className="text-green-600 hover:brightness-125"
+              size={24}
+            />
           </Tooltip>
         </button>
       )}
       {isAdmin && (
         <button onClick={() => updateStatus({ status: "Denied", id })}>
           <Tooltip content="Deny">
-            <CircleX className="text-red-600" size={24} />
+            <CircleX className="text-red-600 hover:brightness-125" size={24} />
           </Tooltip>
         </button>
       )}

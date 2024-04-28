@@ -17,6 +17,9 @@ export default function LeaveRequestList() {
   const { leaveRequestsUser, refetchLeaveRequestsUser } =
     useGetLeaveRequestsUser(userId);
 
+  const [sortStartDates, setSortStartDates] = useState<boolean>(false);
+  const [sortEndDates, setSortEndDates] = useState<boolean>(false);
+
   const hasSearched = leaveRequestsSearched && leaveRequestsSearched.length > 0;
 
   let leaveRequests = isAdmin ? leaveRequestsAll : leaveRequestsUser;
@@ -54,8 +57,8 @@ export default function LeaveRequestList() {
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
 
-  // console.log("sortedByEndDate", sortedByEndDate);
-  // console.log("sortedByStartDate", sortedByStartDate);
+  console.log("sortedByEndDate", sortedByEndDate);
+  console.log("sortedByStartDate", sortedByStartDate);
 
   return (
     <div className="flex flex-col items-center">
@@ -65,21 +68,58 @@ export default function LeaveRequestList() {
 
       {requests.length > 0 ? (
         <div className="flex flex-col w-full items-center justify-center gap-2">
-          <LeaveRequestListHeader />
-          <div className="flex flex-col w-full items-center justify-center gap-2">
-            {requests.map((leaveRequest: LeaveRequestClient) => (
-              <LeaveRequest
-                key={leaveRequest.id}
-                id={leaveRequest.id}
-                userId={leaveRequest.userId && leaveRequest.userId.toString()}
-                leaveType={leaveRequest.type}
-                startDate={leaveRequest.startDate}
-                returnDate={leaveRequest.endDate}
-                status={leaveRequest.status}
-                refetchLeaveRequests={refetchLeaveRequests}
-              />
-            ))}
-          </div>
+          <LeaveRequestListHeader
+            sortStartDates={sortStartDates}
+            setSortStartDates={setSortStartDates}
+            sortEndDates={sortEndDates}
+            setSortEndDates={setSortEndDates}
+          />
+          {sortStartDates ? (
+            <div className="flex flex-col w-full items-center justify-center gap-2">
+              {sortedByStartDate.map((leaveRequest: LeaveRequestClient) => (
+                <LeaveRequest
+                  key={leaveRequest.id}
+                  id={leaveRequest.id}
+                  userId={leaveRequest.userId && leaveRequest.userId.toString()}
+                  leaveType={leaveRequest.type}
+                  startDate={leaveRequest.startDate}
+                  returnDate={leaveRequest.endDate}
+                  status={leaveRequest.status}
+                  refetchLeaveRequests={refetchLeaveRequests}
+                />
+              ))}
+            </div>
+          ) : sortEndDates ? (
+            <div className="flex flex-col w-full items-center justify-center gap-2">
+              {sortedByEndDate.map((leaveRequest: LeaveRequestClient) => (
+                <LeaveRequest
+                  key={leaveRequest.id}
+                  id={leaveRequest.id}
+                  userId={leaveRequest.userId && leaveRequest.userId.toString()}
+                  leaveType={leaveRequest.type}
+                  startDate={leaveRequest.startDate}
+                  returnDate={leaveRequest.endDate}
+                  status={leaveRequest.status}
+                  refetchLeaveRequests={refetchLeaveRequests}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col w-full items-center justify-center gap-2">
+              {requests.map((leaveRequest: LeaveRequestClient) => (
+                <LeaveRequest
+                  key={leaveRequest.id}
+                  id={leaveRequest.id}
+                  userId={leaveRequest.userId && leaveRequest.userId.toString()}
+                  leaveType={leaveRequest.type}
+                  startDate={leaveRequest.startDate}
+                  returnDate={leaveRequest.endDate}
+                  status={leaveRequest.status}
+                  refetchLeaveRequests={refetchLeaveRequests}
+                />
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <h3 className="text-center text-2xl font-semibold mt-12">

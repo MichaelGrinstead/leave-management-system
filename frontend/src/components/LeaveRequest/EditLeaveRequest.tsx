@@ -17,6 +17,7 @@ import { LoadingSpinner } from "../Ui/LoadingSpinner";
 import { useToast } from "../../hooks/useToast";
 import { adjustForTimezone } from "../../utils/adjustForTimezone";
 import { Skeleton } from "../Ui/Skeleton";
+import { useCheckDateOverlap } from "../../hooks/useCheckDateOverlap";
 
 const leaveRequestSchema = z
   .object({
@@ -74,10 +75,10 @@ export default function EditLeaveRequest() {
 
   const { type, reason } = getValues();
   const { startDate, endDate } = watch();
-  console.log("type", type);
-  console.log("reason", reason);
-  console.log("startDate", new Date(startDate));
-  console.log("endDate", new Date(endDate));
+  const { isOverlap, refetchCheckOverlap } = useCheckDateOverlap(
+    new Date(startDate).toISOString(),
+    new Date(endDate).toISOString()
+  );
 
   const timeInDays = (start: number, end: number) => {
     const timeInSeconds = end - start;
@@ -129,6 +130,10 @@ export default function EditLeaveRequest() {
       });
     }
   }, [isUpdateLeaveRequestSuccess, errorUpdatingLeaveRequest]);
+
+  useEffect(() => {
+    refetchCheckOverlap;
+  }, [startDate, endDate]);
 
   return (
     <div className="relative flex flex-col items-center justify-center">
@@ -208,7 +213,7 @@ export default function EditLeaveRequest() {
               error={errors.reason && errors.reason.message}
             />
 
-            <Button type="submit" className="w-72 mt-6">
+            <Button className="w-72 mt-6" disabled={isOverlap?.overlap}>
               {isUpdateLeaveRequestPending ? <LoadingSpinner /> : "Save"}
             </Button>
           </form>

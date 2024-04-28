@@ -66,6 +66,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        log::info($request->user());
         try {
             $users = User::all();
             return response()->json($users, 200);

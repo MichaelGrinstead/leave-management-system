@@ -217,7 +217,7 @@ export default function CreateLeaveRequest() {
             error={errors.reason && errors.reason.message}
           />
 
-          <Button className="w-72 mt-6">
+          <Button className="w-72 mt-6" disabled={isOverlap?.overlap}>
             {isAddLeaveRequestPending ? <LoadingSpinner /> : "Create"}
           </Button>
         </form>

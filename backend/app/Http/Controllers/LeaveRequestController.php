@@ -13,6 +13,7 @@ class LeaveRequestController extends Controller
 {
     public function store(Request $request)
     {
+        log::info($request->getContent());
 
         $isAdmin = $request->user()->role === 'admin';
 
@@ -31,6 +32,8 @@ class LeaveRequestController extends Controller
         try{
 
             $validatedData = $request->validate($rules);
+
+            log::info($validatedData);  
 
             $formattedStartDate = Carbon::parse($validatedData['start_date']);
             $formattedEndDate = Carbon::parse($validatedData['end_date']);
@@ -242,6 +245,7 @@ class LeaveRequestController extends Controller
             $leaveRequest->delete();
             return response()->json(['message' => 'Leave request deleted'], 200);
         } catch (ModelNotFoundException $e) {
+            log::error("Leave request not found: " . $e->getMessage());
             return response()->json(['error' => 'Leave request not found'], 404);
         } catch (Exception $e) {
             Log::error("General error: " . $e->getMessage());

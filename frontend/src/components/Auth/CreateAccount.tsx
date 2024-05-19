@@ -12,31 +12,10 @@ export default function CreateAccount() {
   const navigate = useNavigate();
   const methods = useForm();
   const { register, handleSubmit, getValues } = methods;
-  const {
-    addNewUser,
-    isAddNewUserPending,
-    isAddNewUserSuccess,
-    errorAddingNewUser,
-  } = useAddNewUser();
+  const { addNewUser, isAddNewUserPending, isAddNewUserSuccess } =
+    useAddNewUser();
 
-  const {
-    loginUser,
-    isLoginUserPending,
-    isLoginUserSuccess,
-    errorLoggingInNewUser,
-  } = useLogin();
-
-  console.log("add user", {
-    isAddNewUserPending,
-    isAddNewUserSuccess,
-    errorAddingNewUser,
-  });
-
-  console.log("login user", {
-    isLoginUserPending,
-    isLoginUserSuccess,
-    errorLoggingInNewUser,
-  });
+  const { loginUser, isLoginUserPending, isLoginUserSuccess } = useLogin();
 
   useEffect(() => {
     if (isAddNewUserSuccess && isLoginUserSuccess) {
@@ -55,6 +34,7 @@ export default function CreateAccount() {
         <form
           className="flex flex-col justify-center items-center gap-6 border bg-white w-[450px] h-[450px] mt-40 shadow-custom p-4"
           onSubmit={handleSubmit(handleCreateAccount)}
+          role="form"
         >
           <h1 className="text-3xl font-bold text-darkBlue">Create Account</h1>
           <Input {...register("name")} placeholder="Name" />

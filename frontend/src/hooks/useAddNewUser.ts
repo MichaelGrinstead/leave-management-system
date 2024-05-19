@@ -33,8 +33,6 @@ export const useAddNewUser = () => {
     mutationFn: add,
   });
 
-  console.log("error", errorAddingNewUser);
-
   return {
     addNewUser,
     isAddNewUserPending,

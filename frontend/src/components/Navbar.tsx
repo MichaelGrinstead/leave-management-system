@@ -11,12 +11,7 @@ export default function Navbar() {
   const { userId, isAdmin, isLoggedIn } = useContext(AuthContext);
   const { userData } = useGetUser(userId);
 
-  const {
-    logoutUser,
-    isLogoutUserPending,
-    isLogoutUserSuccess,
-    errorLoggingOutUser,
-  } = useLogout();
+  const { logoutUser, isLogoutUserSuccess } = useLogout();
 
   const name = isAdmin ? (
     <div className="flex flex-row items-center justify-center gap-1">

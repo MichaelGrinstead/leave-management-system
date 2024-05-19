@@ -50,12 +50,17 @@ export default function LeaveRequestActions({
           <FilePenLine
             className="text-midBlue hover:brightness-125"
             size={24}
+            aria-label="Edit Leave Request"
           />
         </Tooltip>
       </button>
       <button onClick={() => deleteLeaveRequest(id)}>
         <Tooltip content="Delete">
-          <Trash2 className="text-darkBlue hover:brightness-125" size={24} />
+          <Trash2
+            className="text-darkBlue hover:brightness-125"
+            size={24}
+            aria-label="Delete Leave Request"
+          />
         </Tooltip>
       </button>
 
@@ -65,6 +70,7 @@ export default function LeaveRequestActions({
             <CircleCheck
               className="text-green-600 hover:brightness-125"
               size={24}
+              aria-label="Accept Leave Request"
             />
           </Tooltip>
         </button>
@@ -72,7 +78,11 @@ export default function LeaveRequestActions({
       {isAdmin && (
         <button onClick={() => updateStatus({ status: "Denied", id })}>
           <Tooltip content="Deny">
-            <CircleX className="text-red-600 hover:brightness-125" size={24} />
+            <CircleX
+              className="text-red-600 hover:brightness-125"
+              size={24}
+              aria-label="Deny Leave Request"
+            />
           </Tooltip>
         </button>
       )}

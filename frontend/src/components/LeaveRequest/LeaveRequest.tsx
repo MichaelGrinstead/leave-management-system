@@ -1,5 +1,4 @@
 import { useGetUser } from "../../hooks/useGetUser";
-import { useToast } from "../../hooks/useToast";
 import { clx } from "../../utils/clx";
 import LeaveRequestActions from "./LeaveRequestActions";
 

@@ -54,8 +54,6 @@ export default function LeaveRequestList() {
     }
   );
 
-  console.log(localStorage.getItem("token"));
-
   const sortedByEndDate = requests
     .slice()
     .sort(
@@ -68,8 +66,8 @@ export default function LeaveRequestList() {
         new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
     );
 
-  console.log("sortedByEndDate", sortedByEndDate);
-  console.log("sortedByStartDate", sortedByStartDate);
+  console.log("all loading component", isGetLeaveRequestsAllLoading);
+  console.log("loading component", isGetLeaveRequestsLoading);
 
   return (
     <div className="flex flex-col items-center">
@@ -134,13 +132,34 @@ export default function LeaveRequestList() {
         </div>
       ) : isGetLeaveRequestsLoading ? (
         <div className="flex flex-col w-full items-center justify-center gap-2">
-          <Skeleton className="sticky top-56 h-10 flex flex-row bg-white text-center font-semibold shadow-custom border w-3/4 justify-between px-10 py-2" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
-          <Skeleton className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md" />
+          <Skeleton
+            className="sticky top-56 h-10 flex flex-row bg-white text-center font-semibold shadow-custom border w-3/4 justify-between px-10 py-2"
+            aria-label="loading leave request header"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
+          <Skeleton
+            className="flex flex-col justify-center h-20 w-3/4 bg-white  border rounded-md"
+            aria-label="loading leave request"
+          />
         </div>
       ) : (
         <h3 className="text-center opacity-70 text-2xl font-semibold mt-40">
